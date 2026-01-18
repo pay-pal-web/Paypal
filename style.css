@@ -106,3 +106,57 @@ a:hover {
     max-width: 90%;
   }
 }
+
+/* ===== Dashboard Wallet Card ===== */
+.wallet-card {
+  background: linear-gradient(135deg, #0070ba, #005ea6);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.wallet-header {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.wallet-balance {
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* ===== Action Buttons ===== */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: #f0f4f8;
+  color: #0070ba;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.action-btn:hover {
+  background: #e0e7ef;
+  transform: translateY(-2px);
+}
+
+.action-btn i {
+  font-size: 1.1em;
+}
