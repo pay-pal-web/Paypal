@@ -1,71 +1,148 @@
-/* ======== Global Styles ======== */
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: #f2f4f7; /* subtle light gray */
+:root {
+  --bg-page: #f5f7fa;
+  --bg-subtle: #f2f4f7;
+  --card-bg: #ffffff;
+  --blue-500: #0070ba;
+  --blue-700: #003087;
+  --blue-600: #005ea6;
+  --muted: #ccd0d5;
+  --muted-bg: #f0f4f8;
+  --muted-bg-hover: #e0e7ef;
+  --text: #333;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-soft: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-md: 0 12px 35px rgba(0,0,0,0.12);
+  --shadow-strong: 0 15px 40px rgba(0,0,0,0.15);
+  --gap: 16px;
+  --max-card: 400px;
+  --max-auth-card: 380px;
+  --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+/* ======== Global ======== */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  font-family: var(--font-base);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* center layout for auth/dashboard */
+.app-center {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* ======== Container / Panels ======== */
-.container, .login-container {
-  background: #ffffff;
-  padding: 30px;
+/* ======== Card base ======== */
+.card,
+.login-container,
+.container {
+  background: var(--card-bg);
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  max-width: var(--max-card);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
   text-align: center;
+  box-sizing: border-box;
+}
+
+/* Slightly different defaults for auth variants */
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, #f5f7fa, #e9eef5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-container,
+.container.auth-card {
+  max-width: var(--max-auth-card);
+  padding: 40px 35px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-strong);
 }
 
 /* ======== Headings ======== */
 h2 {
-  margin-bottom: 25px;
-  font-size: 1.8em;
-  color: #0070ba; /* PayPal blue */
+  margin: 0 0 25px 0;
+  font-size: 1.375rem; /* ~22px */
+  color: var(--blue-700);
+  font-weight: 600;
 }
 
-/* ======== Inputs ======== */
-input, select {
+/* smaller heading variant used earlier */
+.card h2 {
+  color: var(--blue-500);
+}
+
+/* ======== Form controls ======== */
+input,
+select,
+textarea {
   width: 100%;
   padding: 14px;
-  margin-bottom: 20px;
-  border: 1px solid #ccd0d5;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border 0.2s;
+  margin: 0 0 16px 0;
+  border: 1px solid var(--muted);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem; /* 15px */
+  box-sizing: border-box;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  background: white;
+  color: inherit;
 }
 
-input:focus {
-  border-color: #0070ba;
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--blue-500);
   outline: none;
+  box-shadow: 0 0 0 4px rgba(0,112,186,0.08);
+}
+
+/* Accessible keyboard focus */
+:focus-visible {
+  outline: 3px solid rgba(0,112,186,0.14);
+  outline-offset: 2px;
 }
 
 /* ======== Buttons ======== */
-button {
+button,
+.btn {
   width: 100%;
   padding: 14px;
-  background: #0070ba;
-  color: white;
+  background: var(--blue-500);
+  color: #fff;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.16s ease, transform 0.08s ease;
+  box-sizing: border-box;
 }
 
-button:hover {
-  background: #005ea6;
+button:hover,
+.btn:hover {
+  background: var(--blue-600);
   transform: translateY(-2px);
 }
 
 /* ======== Links ======== */
 a {
-  color: #0070ba;
+  color: var(--blue-500);
   text-decoration: none;
   font-weight: 500;
 }
@@ -74,51 +151,44 @@ a:hover {
   text-decoration: underline;
 }
 
-/* ======== Dashboard Elements ======== */
+/* ======== Dashboard elements ======== */
 #balance {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #333;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text);
   display: block;
   margin: 15px 0 30px 0;
 }
 
-.container a {
+.container a.action-link {
   display: block;
   padding: 12px;
   margin-bottom: 12px;
-  background: #f0f4f8;
+  background: var(--muted-bg);
   border-radius: 8px;
   text-decoration: none;
-  color: #0070ba;
+  color: var(--blue-500);
   font-weight: 600;
-  transition: background 0.2s;
+  transition: background 0.16s ease;
 }
 
-.container a:hover {
-  background: #e0e7ef;
-}
-
-/* ======== Responsive ======== */
-@media (max-width: 450px) {
-  .container, .login-container {
-    padding: 20px;
-    max-width: 90%;
-  }
+.container a.action-link:hover {
+  background: var(--muted-bg-hover);
 }
 
 /* ===== Dashboard Wallet Card ===== */
 .wallet-card {
-  background: linear-gradient(135deg, #0070ba, #005ea6);
-  color: white;
-  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
+  color: #fff;
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 25px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  text-align: left;
 }
 
 .wallet-header {
-  font-size: 1em;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -126,16 +196,16 @@ a:hover {
 }
 
 .wallet-balance {
-  font-size: 2em;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 700;
   margin-top: 10px;
 }
 
-/* ===== Action Buttons ===== */
+/* ===== Action Buttons / Links ===== */
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: var(--gap);
 }
 
 .action-btn {
@@ -144,16 +214,16 @@ a:hover {
   justify-content: center;
   gap: 10px;
   padding: 14px;
-  background: #f0f4f8;
-  color: #0070ba;
+  background: var(--muted-bg);
+  color: var(--blue-500);
   font-weight: 600;
   border-radius: 10px;
   text-decoration: none;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.16s ease, transform 0.08s ease;
 }
 
 .action-btn:hover {
-  background: #e0e7ef;
+  background: var(--muted-bg-hover);
   transform: translateY(-2px);
 }
 
@@ -161,109 +231,35 @@ a:hover {
   font-size: 1.1em;
 }
 
-/* ===== LOGIN / SIGNUP PAGE ===== */
-
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: #f5f7fa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-/* Login Card */
-.login-container,
-.container {
-  background: #ffffff;
-  width: 100%;
-  max-width: 380px;
-  padding: 35px;
-  border-radius: 12px;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
-  text-align: center;
-}
-
-/* Title */
+/* ======== Login / Signup specific tweaks ======== */
 .login-container h2,
-.container h2 {
-  margin-bottom: 25px;
-  font-size: 22px;
-  color: #142c8e;
+.auth-card h2 {
+  margin-bottom: 30px;
+  font-size: 1.375rem;
+  color: var(--blue-700);
   font-weight: 600;
 }
 
-/* Inputs */
-.login-container input,
-.container input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 16px;
-  border: 1px solid #ccd0d5;
-  border-radius: 6px;
-  font-size: 15px;
-}
-
-/* Button */
-.login-container button,
-.container button {
-  width: 100%;
-  padding: 14px;
-  background: #0070ba;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.login-container button:hover,
-.container button:hover {
-  background: #005ea6;
-}
-
-/* Links */
 .login-container p,
 .container p {
   margin-top: 18px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
-.login-container a,
-.container a {
-  color: #0070ba;
-  text-decoration: none;
-  font-weight: 500;
+/* ======== Responsive ======== */
+@media (max-width: 450px) {
+  .card,
+  .login-container,
+  .container {
+    padding: 20px;
+    max-width: 90%;
+  }
 }
 
-.login-container a:hover,
-.container a:hover {
-  text-decoration: underline;
-}
-
-/* ===== AUTH PAGES (LOGIN / SIGNUP) ===== */
-
-.auth-page {
-  min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(180deg, #f5f7fa, #e9eef5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-container {
-  background: #ffffff;
-  max-width: 380px;
-  width: 100%;
-  padding: 40px 35px;
-  border-radius: 14px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-}
-
-.login-container h2 {
-  margin-bottom: 30px;
-  font-size: 22px;
-  color: #003087; /* PayPal dark blue */
+/* ======== Reduced motion preference ======== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
