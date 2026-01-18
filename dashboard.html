@@ -4,19 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Demo Wallet | Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-  
 <body>
   <div class="container">
     <h2>Welcome, <span id="userName"></span></h2>
-    <p>Wallet Balance: $<span id="balance">0.00</span></p>
-    <a href="send.html">Send Money</a>
-    <a href="history.html">Transaction History</a>
+
+    <!-- Wallet Card -->
+    <div class="wallet-card">
+      <div class="wallet-header">
+        <i class="fas fa-wallet"></i> Wallet Balance
+      </div>
+      <div class="wallet-balance">
+        $<span id="balance">0.00</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="actions">
+      <a href="send.html" class="action-btn">
+        <i class="fas fa-paper-plane"></i> Send Money
+      </a>
+      <a href="history.html" class="action-btn">
+        <i class="fas fa-clock"></i> Transaction History
+      </a>
+    </div>
   </div>
-  
+
   <script src="js/main.js"></script>
-  
 </body>
-  
 </html>
