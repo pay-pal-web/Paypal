@@ -78,3 +78,36 @@ if (loginBtn) {
 if (document.getElementById("userName")) {
   loadDashboard();
 }
+
+// ===== FORGOT PASSWORD =====
+const resetRequestBtn = document.getElementById("resetRequestBtn");
+if (resetRequestBtn) {
+  resetRequestBtn.addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const user = users.find(u => u.email === email);
+    if (!user) {
+      alert("Email not found");
+      return;
+    }
+    localStorage.setItem("resetEmail", email);
+    window.location.href = "reset-password.html";
+  });
+}
+
+// ===== RESET PASSWORD =====
+const resetBtn = document.getElementById("resetBtn");
+if (resetBtn) {
+  resetBtn.addEventListener("click", () => {
+    const newPassword = document.getElementById("newPassword").value;
+    const email = localStorage.getItem("resetEmail");
+    const user = users.find(u => u.email === email);
+    if (!user) return;
+
+    user.password = newPassword; // demo only
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.removeItem("resetEmail");
+
+    alert("Password updated. Please log in.");
+    window.location.href = "index.html";
+  });
+}
