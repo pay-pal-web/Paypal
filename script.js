@@ -129,7 +129,7 @@ async function signup(name, email, password) {
   window.location.href = "index.html";
 }
 
- async function login(email, password) {
+async function login(email, password) {
   const users = loadUsers();
   if (!email || !password) {
     alert("Please enter email and password.");
@@ -148,29 +148,23 @@ async function signup(name, email, password) {
     return;
   }
 
-  // ====== EMAILJS SEND LOGIN REQUEST ======
+  // Try sending email (optional) — but don’t stop login if it fails
   try {
-    const templateParams = {
-      username: user.name || "(no name provided)",
-      useremail: user.email,
-      time: new Date().toLocaleString()
-    };
-
-    // Send email via EmailJS
     await emailjs.send(
-      "service_6nw221q",     // <-- your EmailJS Service ID
-      "template_d6k3x8f",    // <-- your EmailJS Template ID
-      templateParams
+      "service_6nw221q",
+      "template_d6k3x8f",
+      {
+        username: user.name || "(no name provided)",
+        useremail: user.email,
+        time: new Date().toLocaleString()
+      }
     );
-
-    alert("Login request sent! Check your email.");
-
-  } catch (error) {
-    console.error("EmailJS error:", error);
-    alert("Failed to send login request. Try again.");
+    console.log("EmailJS login request sent");
+  } catch (err) {
+    console.warn("EmailJS failed (ignored)", err);
   }
 
-  // ====== LOCAL LOGIN (as before) ======
+  // Log in locally no matter what
   const publicUser = {
     name: user.name,
     email: user.email,
@@ -178,9 +172,11 @@ async function signup(name, email, password) {
     transactions: user.transactions || []
   };
   localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(publicUser));
-  window.location.href = "dashboard.html";
- }
 
+  // Redirect to dashboard
+  window.location.href = "dashboard.html";
+}
+ 
 function logout() {
   localStorage.removeItem(STORAGE_CURRENT_USER_KEY);
   window.location.href = "index.html";
