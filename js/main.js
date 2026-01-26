@@ -129,41 +129,56 @@ async function signup(name, email, password) {
   window.location.href = "index.html";
 }
 
-async function login(email, password) {
+ async function login(email, password) {
+  // Load saved users
   const users = loadUsers();
+
+  // Validation
   if (!email || !password) {
     alert("Please enter email and password.");
     return;
   }
 
+  // Find the user
   const user = users.find(u => u.email === email);
   if (!user) {
     alert("Invalid email or password!");
     return;
   }
 
-  // --- SEND LOGIN REQUEST EMAIL ---
-  try {
-    const templateParams = {
-      username: user.name,
-      useremail: user.email,
-      time: new Date().toISOString()
-    };
+  // --- SEND LOGIN REQUEST EMAIL USING EMAILJS ---
+  const templateParams = {
+    username: user.name,
+    useremail: user.email,
+    time: new Date().toISOString()
+  };
 
-    await emailjs.send("service_6nw221q", "template_bindnru", templateParams);
+  try {
+    // Make sure you replace these with your actual Service ID & Template ID
+    await emailjs.send(
+      "service_6nw221q",    // <-- Your Service ID
+      "template_bindnru",   // <-- Your Template ID
+      templateParams
+    );
 
     // Notify user
-    alert("Login request sent! Waiting for approval...");
+    alert("Login request sent! Please check your email.");
 
-    // --- SIMULATED APPROVAL ---
+    // --- SIMULATED APPROVAL: log user in locally ---
     saveCurrentUserPublic(user);
     window.location.href = "dashboard.html";
 
   } catch (error) {
     console.error("EmailJS error:", error);
-    alert("Failed to send login request. Try again.");
+
+    // Detailed error message for debugging
+    if (error.status && error.text) {
+      alert(`Failed to send login request. Status: ${error.status}, ${error.text}`);
+    } else {
+      alert("Failed to send login request. Try again.");
+    }
   }
-}
+ }
 
 function logout() {
   localStorage.removeItem(STORAGE_CURRENT_USER_KEY);
