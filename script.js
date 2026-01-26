@@ -37,7 +37,6 @@ async function login(email, password) {
     alert("Invalid email format.");
     return;
   }
-
   if (!isPasswordValid(password)) {
     alert("Password cannot be empty.");
     return;
@@ -103,43 +102,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load dashboard if on dashboard page
   if (document.getElementById("userEmail")) {
     loadDashboard();
-  }
-});
-
-  if (document.getElementById("userEmail")) {
-    loadDashboard();
-  }
-});
-
-  const loginBtn = document.getElementById("loginBtn");
-  if (loginBtn) {
-    loginBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      login(email, password);
-    });
-  }
-
-  if (document.getElementById("userName")) {
-    loadDashboard();
-  }
-
-  const resetRequestBtn = document.getElementById("resetRequestBtn");
-  if (resetRequestBtn) {
-    resetRequestBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      requestPasswordReset(email);
-    });
-  }
-
-  const resetBtn = document.getElementById("resetBtn");
-  if (resetBtn) {
-    resetBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const newPassword = document.getElementById("newPassword").value;
-      resetPassword(newPassword);
-    });
   }
 });
