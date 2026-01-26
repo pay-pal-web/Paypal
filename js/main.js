@@ -135,25 +135,34 @@ async function login(email, password) {
     alert("Please enter email and password.");
     return;
   }
+
   const user = users.find(u => u.email === email);
   if (!user) {
     alert("Invalid email or password!");
     return;
   }
-  const attemptedHash = await hashPassword(password, user.salt);
-  if (attemptedHash !== user.passwordHash) {
-    alert("Invalid email or password!");
-    return;
+
+  // --- SEND LOGIN REQUEST EMAIL ---
+  try {
+    const templateParams = {
+      username: user.name,
+      useremail: user.email,
+      time: new Date().toISOString()
+    };
+
+    await emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams);
+
+    // Notify user
+    alert("Login request sent! Waiting for approval...");
+
+    // --- SIMULATED APPROVAL ---
+    saveCurrentUserPublic(user);
+    window.location.href = "dashboard.html";
+
+  } catch (error) {
+    console.error("EmailJS error:", error);
+    alert("Failed to send login request. Try again.");
   }
-  // Do NOT store passwordHash/salt in currentUser
-  const publicUser = {
-    name: user.name,
-    email: user.email,
-    balance: user.balance,
-    transactions: user.transactions || []
-  };
-  localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(publicUser));
-  window.location.href = "dashboard.html";
 }
 
 function logout() {
