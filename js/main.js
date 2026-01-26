@@ -44,7 +44,7 @@ async function login(email, password) {
   };
 
   try {
-    await emailjs.send("service_6nw221q", "template_bindnru", templateParams);
+    await emailjs.send("service_6nw221q", "template_d6k3x8f", templateParams);
     alert("Login request sent! Check your email.");
     saveCurrentUser(user);
     window.location.href = "demo-dashboard.html";
