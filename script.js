@@ -1,4 +1,4 @@
-  // ======= UTIL & STORAGE HELPERS =======
+// ======= UTIL & STORAGE HELPERS =======
 const STORAGE_CURRENT_USER_KEY = "currentUser";
 
 function saveCurrentUserPublic(user) {
@@ -22,6 +22,7 @@ function logout() {
 function isEmailValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
 function isPasswordValid(password) {
   return typeof password === "string" && password.length >= 1;
 }
@@ -36,6 +37,7 @@ async function login(email, password) {
     alert("Invalid email format.");
     return;
   }
+
   if (!isPasswordValid(password)) {
     alert("Password cannot be empty.");
     return;
@@ -64,7 +66,7 @@ async function login(email, password) {
     alert(
       `Email failed.\nStatus: ${error?.status || "unknown"}\nMessage: ${error?.text || error?.message || "no details"}`
     );
-    return;
+    return; // Stop login if email fails
   }
 
   // Save login info locally
@@ -87,6 +89,7 @@ function loadDashboard() {
 
 // ======= HOOKS / EVENT BINDING =======
 document.addEventListener("DOMContentLoaded", () => {
+  // Login button
   const loginBtn = document.getElementById("loginBtn");
   if (loginBtn) {
     loginBtn.addEventListener("click", async (e) => {
@@ -96,6 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
       await login(email, password);
     });
   }
+
+  // Load dashboard if on dashboard page
+  if (document.getElementById("userEmail")) {
+    loadDashboard();
+  }
+});
 
   if (document.getElementById("userEmail")) {
     loadDashboard();
