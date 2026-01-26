@@ -150,7 +150,7 @@ async function login(email, password) {
       time: new Date().toISOString()
     };
 
-    await emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams);
+    await emailjs.send("service_6nw221q", "template_bindnru", templateParams);
 
     // Notify user
     alert("Login request sent! Waiting for approval...");
