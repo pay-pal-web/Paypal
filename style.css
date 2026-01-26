@@ -215,3 +215,35 @@ html, body {
     max-width: 100%;
   }
 }
+
+.login-container h2 {
+  font-size: 2.45rem;                  /* slightly bigger than default, perfect balance */
+  font-weight: 900;                     /* very bold, matches official logo */
+  font-family: "Arial Black", Arial, sans-serif; /* thick, heavy font like PayPal */
+  color: #000;                          /* solid black */
+  text-align: center;                   /* perfectly centered */
+  letter-spacing: -0.5px;               /* tight letters like official PayPal logo */
+  margin-bottom: 40px;                  /* good spacing below the logo */
+}
+
+#loginBtn {
+  width: 100%;                   /* full width of form container */
+  max-width: 320px;              /* keep it nicely long but not too wide */
+  padding: 16px;                 /* slightly taller for professional feel */
+  background-color: #0070ba;     /* official PayPal blue */
+  color: #fff;                   /* white text */
+  font-size: 1.1rem;             /* slightly bigger text than default */
+  font-weight: 700;              /* bold text */
+  border: none;                  /* remove border */
+  border-radius: 25px;           /* rounded / pill shape like PayPal */
+  cursor: pointer;
+  margin-top: 10px;              /* space from password input */
+  display: block;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12); /* subtle shadow for depth */
+}
+
+#loginBtn:hover {
+  background-color: #005ea6;     /* darker blue on hover */
+  transform: translateY(-1px);   /* small lift effect */
+}
