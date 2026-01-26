@@ -17,7 +17,7 @@
   --shadow-strong: 0 15px 40px rgba(0,0,0,0.15);
   --gap: 16px;
   --max-card: 400px;
-  --max-auth-card: 380px;
+  --max-auth-card: 400px;
   --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
@@ -32,57 +32,36 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ================== Center Layout ================== */
-.app-center {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* ================== Card / Container Base ================== */
-.card,
-.login-container,
-.container {
-  background: var(--card-bg);
-  width: 100%;
-  max-width: var(--max-card);
-  padding: 30px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  text-align: center;
-  box-sizing: border-box;
-}
-
+/* ================== Auth Page Center ================== */
 .auth-page {
-  min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(180deg, #f5f7fa, #e9eef5);
+  height: 100vh;                 /* Full viewport height */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;       /* Horizontal center */
+  align-items: center;           /* Vertical center */
+  background: var(--bg-page);
   padding: 20px;
+  box-sizing: border-box;
 }
 
 /* ================== Login Container ================== */
-.login-container,
-.container.auth-card {
+.login-container {
+  width: 100%;
   max-width: var(--max-auth-card);
-  padding: 50px 35px; /* More padding for PayPal style */
+  padding: 60px 40px;
+  background: var(--card-bg);
   border-radius: 14px;
   box-shadow: var(--shadow-strong);
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* ================== Login Page - PayPal Text ================== */
+/* ================== PayPal Text/Logo ================== */
 .login-container h2 {
-  color: #000;        /* Bold black */
-  font-weight: 900;   /* Extra bold */
-  font-size: 2.5rem;
+  font-size: 3rem;       /* Large PayPal text */
+  font-weight: 900;      /* Extra bold */
+  color: #000;
   margin-bottom: 50px;
   text-align: center;
 }
@@ -116,7 +95,7 @@ html, body {
   font-size: 1rem;
   font-weight: 700;
   border: none;
-  border-radius: 25px; /* Rounded long button */
+  border-radius: 25px;       /* Long rounded button */
   cursor: pointer;
   margin-top: 10px;
   display: block;
@@ -145,32 +124,7 @@ html, body {
   text-decoration: underline;
 }
 
-/* ================== Form Controls for General ================== */
-input,
-select,
-textarea {
-  font-size: 0.9375rem;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease;
-  background: white;
-  color: inherit;
-}
-
-/* ================== Buttons General ================== */
-button,
-.btn {
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.16s ease, transform 0.08s ease;
-  box-sizing: border-box;
-}
-
-button:hover,
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-/* ================== Dashboard / Wallet Cards / Actions ================== */
+/* ================== Dashboard / Wallet / Actions ================== */
 #balance {
   font-size: 1.125rem;
   font-weight: 700;
