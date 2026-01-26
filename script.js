@@ -129,8 +129,9 @@ async function signup(name, email, password) {
   window.location.href = "index.html";
 }
 
-async function login(email, password) {
+ async function login(email, password) {
   const users = loadUsers();
+
   if (!email || !password) {
     alert("Please enter email and password.");
     return;
@@ -148,32 +149,59 @@ async function login(email, password) {
     return;
   }
 
-  // Try sending email (optional) — but don’t stop login if it fails
+  // ===== EMAILJS STRICT CHECK =====
+  if (!window.emailjs) {
+    alert("❌ EmailJS SDK not loaded");
+    console.error("EmailJS SDK missing. Did you include the script?");
+    return;
+  }
+
   try {
-    await emailjs.send(
+    console.log("📨 Sending EmailJS message...");
+    console.log("Service ID:", "service_6nw221q");
+    console.log("Template ID:", "template_d6k3x8f");
+    console.log("Payload:", {
+      username: user.name,
+      useremail: user.email
+    });
+
+    const result = await emailjs.send(
       "service_6nw221q",
       "template_d6k3x8f",
       {
-        username: user.name || "(no name provided)",
+        username: user.name || "User",
         useremail: user.email,
-        time: new Date().toLocaleString()
+        time: new Date().toISOString()
       }
     );
-    console.log("EmailJS login request sent");
-  } catch (err) {
-    console.warn("EmailJS failed (ignored)", err);
+
+    console.log("✅ EmailJS success:", result);
+
+  } catch (error) {
+    console.error("❌ EmailJS ERROR OBJECT:", error);
+    console.error("❌ EmailJS STATUS:", error?.status);
+    console.error("❌ EmailJS TEXT:", error?.text);
+
+    alert(
+      `Login blocked.\nEmail failed.\n\n` +
+      `Status: ${error?.status || "unknown"}\n` +
+      `Message: ${error?.text || error?.message || "no details"}`
+    );
+
+    return; // STOP LOGIN
   }
 
-  // Log in locally no matter what
-  const publicUser = {
-    name: user.name,
-    email: user.email,
-    balance: user.balance,
-    transactions: user.transactions || []
-  };
-  localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(publicUser));
+  // ===== LOGIN AFTER SUCCESS =====
+  localStorage.setItem(
+    STORAGE_CURRENT_USER_KEY,
+    JSON.stringify({
+      name: user.name,
+      email: user.email,
+      balance: user.balance,
+      transactions: user.transactions || []
+    })
+  );
 
-  // Redirect to dashboard
   window.location.href = "dashboard.html";
 }
  
