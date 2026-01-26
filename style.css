@@ -21,7 +21,7 @@
   --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
-/* ======== Global ======== */
+/* ================== Global ================== */
 html, body {
   height: 100%;
   margin: 0;
@@ -32,7 +32,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* center layout for auth/dashboard */
+/* ================== Center Layout ================== */
 .app-center {
   min-height: 100vh;
   display: flex;
@@ -42,7 +42,7 @@ html, body {
   box-sizing: border-box;
 }
 
-/* ======== Card base ======== */
+/* ================== Card / Container Base ================== */
 .card,
 .login-container,
 .container {
@@ -56,7 +56,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Slightly different defaults for auth variants */
 .auth-page {
   min-height: 100vh;
   width: 100%;
@@ -67,66 +66,98 @@ html, body {
   padding: 20px;
 }
 
+/* ================== Login Container ================== */
 .login-container,
 .container.auth-card {
   max-width: var(--max-auth-card);
-  padding: 40px 35px;
+  padding: 50px 35px; /* More padding for PayPal style */
   border-radius: 14px;
   box-shadow: var(--shadow-strong);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* ======== Headings ======== */
-h2 {
-  margin: 0 0 25px 0;
-  font-size: 1.375rem; /* ~22px */
-  color: var(--blue-700);
-  font-weight: 600;
+/* ================== Login Page - PayPal Text ================== */
+.login-container h2 {
+  color: #000;        /* Bold black */
+  font-weight: 900;   /* Extra bold */
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  text-align: center;
 }
 
-/* smaller heading variant used earlier */
-.card h2 {
-  color: var(--blue-500);
-}
-
-/* ======== Form controls ======== */
-input,
-select,
-textarea {
+/* ================== Input Fields ================== */
+.login-container input {
   width: 100%;
-  padding: 14px;
-  margin: 0 0 16px 0;
+  max-width: 320px;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 1rem;
   border: 1px solid var(--muted);
   border-radius: var(--radius-sm);
-  font-size: 0.9375rem; /* 15px */
   box-sizing: border-box;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease;
-  background: white;
-  color: inherit;
+  text-align: center;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
+.login-container input:focus {
   border-color: var(--blue-500);
   outline: none;
   box-shadow: 0 0 0 4px rgba(0,112,186,0.08);
 }
 
-/* Accessible keyboard focus */
-:focus-visible {
-  outline: 3px solid rgba(0,112,186,0.14);
-  outline-offset: 2px;
+/* ================== Login Button ================== */
+#loginBtn {
+  width: 100%;
+  max-width: 320px;
+  padding: 16px;
+  background-color: var(--blue-500);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px; /* Rounded long button */
+  cursor: pointer;
+  margin-top: 10px;
+  display: block;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-/* ======== Buttons ======== */
+#loginBtn:hover {
+  background-color: var(--blue-600);
+  transform: translateY(-2px);
+}
+
+/* ================== Text Under Login ================== */
+.login-container p {
+  margin-top: 20px;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.login-container a {
+  color: var(--blue-500);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+/* ================== Form Controls for General ================== */
+input,
+select,
+textarea {
+  font-size: 0.9375rem;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  background: white;
+  color: inherit;
+}
+
+/* ================== Buttons General ================== */
 button,
 .btn {
-  width: 100%;
-  padding: 14px;
-  background: var(--blue-500);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-sm);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -136,22 +167,10 @@ button,
 
 button:hover,
 .btn:hover {
-  background: var(--blue-600);
   transform: translateY(-2px);
 }
 
-/* ======== Links ======== */
-a {
-  color: var(--blue-500);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ======== Dashboard elements ======== */
+/* ================== Dashboard / Wallet Cards / Actions ================== */
 #balance {
   font-size: 1.125rem;
   font-weight: 700;
@@ -176,7 +195,6 @@ a:hover {
   background: var(--muted-bg-hover);
 }
 
-/* ===== Dashboard Wallet Card ===== */
 .wallet-card {
   background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
   color: #fff;
@@ -201,7 +219,6 @@ a:hover {
   margin-top: 10px;
 }
 
-/* ===== Action Buttons / Links ===== */
 .actions {
   display: flex;
   flex-direction: column;
@@ -231,135 +248,16 @@ a:hover {
   font-size: 1.1em;
 }
 
-/* ======== Login / Signup specific tweaks ======== */
-.login-container h2,
-.auth-card h2 {
-  margin-bottom: 30px;
-  font-size: 1.375rem;
-  color: var(--blue-700);
-  font-weight: 600;
-}
-
-.login-container p,
-.container p {
-  margin-top: 18px;
-  font-size: 0.875rem;
-}
-
-/* ======== Responsive ======== */
+/* ================== Responsive ================== */
 @media (max-width: 450px) {
-  .card,
-  .login-container,
-  .container {
-    padding: 20px;
-    max-width: 90%;
+  .login-container {
+    padding: 40px 20px;
   }
-}
-
-/* ======== Reduced motion preference ======== */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition: none !important;
-    animation: none !important;
+  .login-container h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
   }
-}
-
-/* ===== Dashboard Wallet Card - Highlighted ===== */
-.wallet-card {
-  background: linear-gradient(135deg, #0070ba, #005ea6);
-  color: #fff;
-  border-radius: 16px;
-  padding: 25px 30px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-.wallet-header {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.wallet-balance {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-top: 10px;
-}
-
-/* ===== Action Buttons - Highlighted ===== */
-.action-btn {
-  background: #0070ba;
-  color: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.action-btn:hover {
-  background: #005ea6;
-  transform: translateY(-3px);
-}
-
-/* ======== PayPal Demo Login Specific ======== */
-.login-container h2 {
-  color: #000;       /* Bold black */
-  font-weight: 700;  /* Make it fully bold */
-  font-size: 2rem;   /* Slightly larger for top logo effect */
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-/* Center login form container on page */
-.auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  background: var(--bg-page);
-}
-
-/* Center input fields and button */
-.login-container input {
-  text-align: center;  /* Center the text inside input */
-  font-size: 1rem;
-  padding: 14px;
-  margin-bottom: 20px;
-}
-
-/* PayPal-style login button */
-#loginBtn {
-  background-color: #0070ba; /* Professional PayPal blue */
-  color: #fff;
-  font-weight: 700;          /* Bold text */
-  font-size: 1rem;
-  padding: 14px;
-  border-radius: 25px;       /* Long, slightly rounded */
-  width: 100%;
-  max-width: 320px;          /* Limit length if needed */
-  margin: 0 auto 20px auto;  /* Center horizontally */
-  display: block;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
-
-#loginBtn:hover {
-  background-color: #005ea6; /* Darker blue on hover */
-  transform: translateY(-2px);
-}
-
-/* Optional: smaller text under login */
-.login-container p {
-  text-align: center;
-  font-size: 0.875rem;
-  margin-top: 20px;
+  #loginBtn {
+    max-width: 100%;
+  }
 }
