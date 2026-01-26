@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo Wallet | Login</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Demo App | Login</title>
+  <link rel="stylesheet" href="css/demo-style.css">
 </head>
 
 <body>
   <div class="auth-page">
     <div class="login-container">
-      <h2>Log in to Demo Wallet</h2>
+      <h2>Log in to Demo App</h2>
       <input type="email" id="email" placeholder="Email">
       <input type="password" id="password" placeholder="Password">
       <button id="loginBtn">Log In</button>
-      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+      <p>Don't have an account? <a href="demo-signup.html">Sign up</a></p>
     </div>
   </div>
 
+  <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  
-<script type="text/javascript">
-  (function(){
-    emailjs.init("pEe5qYvqXQKHp5mAh"); // replace with your EmailJS user ID
-  })();
-</script>
-  
-  <script src="js/main.js"></script>
-  
+  <script>
+    (function(){
+      emailjs.init("pEe5qYvqXQKHp5mAh"); // <-- your active EmailJS public key
+    })();
+  </script>
+
+  <script src="js/demo-main.js"></script>
 </body>
 </html>
