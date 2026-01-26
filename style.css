@@ -215,13 +215,3 @@ html, body {
     max-width: 100%;
   }
 }
-
-.login-container h2 {
-  font-size: 3.5rem;                    /* slightly bigger than before */
-  font-weight: 900;                     /* very bold */
-  font-family: "Arial Black", Arial, sans-serif; /* heavier font like PayPal */
-  color: #000;
-  text-align: center;
-  letter-spacing: -1px;                 /* tighter letters like the official logo */
-  margin-bottom: 50px;                  /* spacing below the logo */
-}
