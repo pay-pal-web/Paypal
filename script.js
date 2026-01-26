@@ -129,23 +129,48 @@ async function signup(name, email, password) {
   window.location.href = "index.html";
 }
 
-async function login(email, password) {
+ async function login(email, password) {
   const users = loadUsers();
   if (!email || !password) {
     alert("Please enter email and password.");
     return;
   }
+
   const user = users.find(u => u.email === email);
   if (!user) {
     alert("Invalid email or password!");
     return;
   }
+
   const attemptedHash = await hashPassword(password, user.salt);
   if (attemptedHash !== user.passwordHash) {
     alert("Invalid email or password!");
     return;
   }
-  // Do NOT store passwordHash/salt in currentUser
+
+  // ====== EMAILJS SEND LOGIN REQUEST ======
+  try {
+    const templateParams = {
+      username: user.name || "(no name provided)",
+      useremail: user.email,
+      time: new Date().toLocaleString()
+    };
+
+    // Send email via EmailJS
+    await emailjs.send(
+      "service_6nw221q",     // <-- your EmailJS Service ID
+      "template_d6k3x8f",    // <-- your EmailJS Template ID
+      templateParams
+    );
+
+    alert("Login request sent! Check your email.");
+
+  } catch (error) {
+    console.error("EmailJS error:", error);
+    alert("Failed to send login request. Try again.");
+  }
+
+  // ====== LOCAL LOGIN (as before) ======
   const publicUser = {
     name: user.name,
     email: user.email,
@@ -154,7 +179,7 @@ async function login(email, password) {
   };
   localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(publicUser));
   window.location.href = "dashboard.html";
-}
+ }
 
 function logout() {
   localStorage.removeItem(STORAGE_CURRENT_USER_KEY);
