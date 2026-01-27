@@ -397,3 +397,13 @@ body {
 .footer-links a:hover {
   text-decoration: underline;
 }
+
+.footer {
+  margin-top: 40px;           /* space above the footer */
+  padding: 20px 0;            /* top/bottom padding */
+  text-align: center;          /* center the text */
+  font-size: 12px;             /* small professional text */
+  color: #555;                 /* gray color for subtle look */
+  background-color: #f5f7fa;   /* light background */
+  border-top: 1px solid #e1e4e8; /* subtle top border */
+}
