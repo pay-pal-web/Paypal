@@ -86,6 +86,69 @@ function loadDashboard() {
   if (emailEl) emailEl.textContent = currentUser.email;
 }
 
+  // ===== USER LOCATION (IP-based) =====
+    async function fetchUserLocation() {
+    try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+
+    // Convert country code to flag emoji
+    function countryCodeToFlag(code) {
+      if (!code) return "";
+      return code
+        .toUpperCase()
+        .replace(/./g, char =>
+          String.fromCodePoint(127397 + char.charCodeAt())
+        );
+    }
+
+    const flag = countryCodeToFlag(data.country_code);
+
+    const sessionLocation = {
+      ip: data.ip || "N/A",
+      city: data.city || "N/A",
+      region: data.region || "N/A",
+      country: data.country_name || "N/A",
+      countryCode: data.country_code || "",
+      timezone: data.timezone || "UTC",
+      utcOffset: data.utc_offset || "+00:00"
+    };
+
+    localStorage.setItem("sessionLocation", JSON.stringify(sessionLocation));
+
+    // IP
+    const ipEl = document.getElementById("user-ip");
+    if (ipEl) {
+      ipEl.textContent = `IP: ${sessionLocation.ip}`;
+    }
+
+    // Location + Flag
+    const locationEl = document.getElementById("user-location");
+    if (locationEl) {
+      locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
+    }
+
+    // Time
+    const timeEl = document.getElementById("user-time");
+    if (timeEl) {
+      const localTime = new Date().toLocaleString("en-US", {
+        timeZone: sessionLocation.timezone
+      });
+      timeEl.textContent = `Time: ${localTime}`;
+    }
+
+  } catch (e) {
+    console.warn("Could not fetch IP location:", e);
+
+    document.getElementById("user-ip").textContent = "IP: N/A";
+    document.getElementById("user-location").textContent = "Location: N/A";
+    document.getElementById("user-time").textContent =
+      `Time: ${new Date().toLocaleString()}`;
+  }
+}
+
+fetchUserLocation();
+
 // ======= HOOKS / EVENT BINDING =======
 document.addEventListener("DOMContentLoaded", () => {
   // Login button
