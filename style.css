@@ -237,3 +237,34 @@ html, body {
   text-decoration: underline;
   color: var(--blue-700);
 }
+
+.security-bar {
+  width: 100%;
+  padding: 10px 12px;
+  text-align: center;
+
+  /* subtle glass / gloss feel */
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.security-text {
+  font-size: 13px;
+  color: #374151; /* calm dark gray */
+  letter-spacing: 0.2px;
+}
+
+.user-info {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
