@@ -8,6 +8,164 @@
   <link rel="icon" type="image/png" sizes="32x32" href="paypal.png">
   <link rel="apple-touch-icon" sizes="180x180" href="paypal.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ===== Reset & Base Styles ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      color: #111;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #fff;
+      border-bottom: 1px solid #e1e4e8;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-img {
+      height: 36px;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: bold;
+      color: #003087;
+    }
+
+    /* ===== Main Reset Password Container ===== */
+    .reset-password-container {
+      max-width: 420px;
+      width: 90%;
+      margin: 50px auto 80px auto;
+      background-color: #fff;
+      padding: 40px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #003087;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* ===== Form ===== */
+    .reset-password-form .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reset-password-form label {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input[type="password"] {
+      width: 100%;
+      padding: 12px 40px 12px 15px; /* space for eye icon */
+      font-size: 14px;
+      border: 1px solid #ccd0d5;
+      border-radius: 5px;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrapper input[type="password"]:focus {
+      border-color: #003087;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0,48,135,0.2);
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #999;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+
+    .toggle-password:hover {
+      color: #003087;
+    }
+
+    /* ===== Submit Button ===== */
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #003087;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      background-color: #002060;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      margin-top: auto;
+      padding: 20px 40px;
+      background-color: #f5f7fa;
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+      border-top: 1px solid #e1e4e8;
+    }
+
+    .footer-links a {
+      color: #003087;
+      text-decoration: none;
+      margin: 0 6px;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,30 +186,45 @@
       <!-- Old Password -->
       <div class="form-group">
         <label for="oldPassword">Enter Old Password</label>
-        <input type="password" id="oldPassword" name="oldPassword" placeholder="Old Password" required>
+        <div class="input-wrapper">
+          <input type="password" id="oldPassword" name="oldPassword" placeholder="Old Password" required>
+          <i class="fas fa-eye toggle-password" data-target="oldPassword"></i>
+        </div>
       </div>
 
       <!-- New Password -->
       <div class="form-group">
         <label for="newPassword">Enter New Password</label>
-        <input type="password" id="newPassword" name="newPassword" placeholder="New Password" required>
+        <div class="input-wrapper">
+          <input type="password" id="newPassword" name="newPassword" placeholder="New Password" required>
+          <i class="fas fa-eye toggle-password" data-target="newPassword"></i>
+        </div>
       </div>
 
       <!-- Confirm New Password -->
       <div class="form-group">
         <label for="confirmNewPassword">Confirm New Password</label>
-        <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password" required>
+        <div class="input-wrapper">
+          <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password" required>
+          <i class="fas fa-eye toggle-password" data-target="confirmNewPassword"></i>
+        </div>
       </div>
 
       <!-- Transaction PIN -->
       <div class="form-group">
         <label for="transactionPin">Enter Transaction PIN</label>
-        <input type="password" id="transactionPin" name="transactionPin" placeholder="Transaction PIN" required>
+        <div class="input-wrapper">
+          <input type="password" id="transactionPin" name="transactionPin" placeholder="Transaction PIN" required>
+          <i class="fas fa-eye toggle-password" data-target="transactionPin"></i>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="confirmTransactionPin">Confirm Transaction PIN</label>
-        <input type="password" id="confirmTransactionPin" name="confirmTransactionPin" placeholder="Confirm Transaction PIN" required>
+        <div class="input-wrapper">
+          <input type="password" id="confirmTransactionPin" name="confirmTransactionPin" placeholder="Confirm Transaction PIN" required>
+          <i class="fas fa-eye toggle-password" data-target="confirmTransactionPin"></i>
+        </div>
       </div>
 
       <!-- Submit Button -->
@@ -70,6 +243,22 @@
     <p class="footer-copy">&copy; 2026 PayPal, Inc. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- JS for Eye Toggle -->
+  <script>
+    document.querySelectorAll('.toggle-password').forEach(function(icon) {
+      icon.addEventListener('click', function() {
+        const targetInput = document.getElementById(this.dataset.target);
+        if (targetInput.type === "password") {
+          targetInput.type = "text";
+          this.classList.remove('fa-eye');
+          this.classList.add('fa-eye-slash');
+        } else {
+          targetInput.type = "password";
+          this.classList.remove('fa-eye-slash');
+          this.classList.add('fa-eye');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
