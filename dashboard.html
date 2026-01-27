@@ -3,41 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo Wallet | Dashboard</title>
+  <title>PayPal | Reset Password</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="icon" type="image/png" sizes="180x180" href="paypal.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="paypal.png">
   <link rel="apple-touch-icon" sizes="180x180" href="paypal.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-  
+
 <body>
-  <div class="app-center">
-    <div class="container">
-      <h2>Welcome, <span id="userName"></span></h2>
-
-      <!-- Wallet Card -->
-      <div class="wallet-card">
-        <div class="wallet-header">
-          <i class="fas fa-wallet"></i> Wallet Balance
-        </div>
-        <div class="wallet-balance">
-          $<span id="balance">0.00</span>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="actions">
-        <a href="send.html" class="action-btn">
-          <i class="fas fa-paper-plane"></i> Send Money
-        </a>
-        <a href="history.html" class="action-btn">
-          <i class="fas fa-clock"></i> Transaction History
-        </a>
-      </div>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="paypal.png" alt="PayPal Logo" class="logo-img">
+      <span class="logo-text">PayPal</span>
     </div>
-  </div>
+  </header>
+
+  <!-- Main Reset Password Container -->
+  <main class="reset-password-container">
+    <h2 class="page-title">Reset Your Password</h2>
+    <p class="page-subtitle">For your security, please enter your current password and set a new one.</p>
+
+    <form id="resetPasswordForm" class="reset-password-form">
+      <!-- Old Password -->
+      <div class="form-group">
+        <label for="oldPassword">Enter Old Password</label>
+        <input type="password" id="oldPassword" name="oldPassword" placeholder="Old Password" required>
+      </div>
+
+      <!-- New Password -->
+      <div class="form-group">
+        <label for="newPassword">Enter New Password</label>
+        <input type="password" id="newPassword" name="newPassword" placeholder="New Password" required>
+      </div>
+
+      <!-- Confirm New Password -->
+      <div class="form-group">
+        <label for="confirmNewPassword">Confirm New Password</label>
+        <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password" required>
+      </div>
+
+      <!-- Transaction PIN -->
+      <div class="form-group">
+        <label for="transactionPin">Enter Transaction PIN</label>
+        <input type="password" id="transactionPin" name="transactionPin" placeholder="Transaction PIN" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmTransactionPin">Confirm Transaction PIN</label>
+        <input type="password" id="confirmTransactionPin" name="confirmTransactionPin" placeholder="Confirm Transaction PIN" required>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary">Approve Reset Password</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">Privacy</a> |
+      <a href="#">Legal</a> |
+      <a href="#">Security</a> |
+      <a href="#">Help</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 PayPal, Inc. All rights reserved.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
-  
 </html>
