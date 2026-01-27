@@ -216,3 +216,48 @@ html, body {
   padding: 6px 12px;             /* small padding for neatness */
   border-radius: 8px;            /* rounded corners for modern feel */
 }
+
+/* ================== Modal ================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 12px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.modal-box p {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 18px;
+}
+
+.modal-box button {
+  background: #0070ba;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-box button:hover {
+  background: #005ea6;
+}
