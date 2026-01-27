@@ -191,46 +191,28 @@ html, body {
   }
 }
 
- /* ================== Professional Security Notice Bar ================== */
-.security-bar {
-  width: 100%;
-  max-width: 100%; /* full width */
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.95); /* slightly more opaque */
-  backdrop-filter: blur(8px); /* soft blur */
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* subtle border */
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* center horizontally */
-  justify-content: center; /* center vertically */
-  gap: 4px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* soft subtle shadow */
-}
-
-/* security text */
-.security-text {
-  font-size: 13px;
-  font-weight: 400;
-  color: #374151; /* soft dark */
-  letter-spacing: 0.3px;
-  text-align: center;
-  line-height: 1.3; /* slightly taller for readability */
-}
-
-/* user info (IP, Location, Time) */
 .user-info {
-  font-size: 12px;
-  color: #6b7280;
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  text-align: center;     /* Make the three lines centered */
+  font-size: 0.85rem;     /* Smaller font than main navbar */
+  color: #333;            /* Optional: softer text color */
+  line-height: 1.2;       /* Tight line spacing */
 }
 
-/* optional subtle hover effect for user info */
-.user-info span:hover {
-  color: #111827; /* darker on hover, professional subtle effect */
-  cursor: default;
+.user-info p {
+  margin: 2px 0;          /* Small margin between lines */
+}
+
+ .security-note {
+  display: flex;                 /* align icon and text horizontally */
+  align-items: center;           /* vertically center the emoji and text */
+  justify-content: center;       /* center on the page or container */
+  gap: 6px;                      /* space between the shield and text */
+  font-size: 0.85rem;            /* subtle, professional size */
+  color: #555;                   /* neutral gray for a professional look */
+  text-align: center;
+  margin: 8px 0 18px 0;          /* space above and below */
+  font-style: italic;            /* subtle emphasis without being bold */
+  background: rgba(0, 94, 184, 0.05); /* faint background to highlight the note */
+  padding: 6px 12px;             /* small padding for neatness */
+  border-radius: 8px;            /* rounded corners for modern feel */
 }
