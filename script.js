@@ -147,8 +147,6 @@ function loadDashboard() {
   }
 }
 
-fetchUserLocation();
-
 // ======= HOOKS / EVENT BINDING =======
 document.addEventListener("DOMContentLoaded", () => {
   // Login button
@@ -165,5 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load dashboard if on dashboard page
   if (document.getElementById("userEmail")) {
     loadDashboard();
+
+    fetchUserLocation();
   }
 });
