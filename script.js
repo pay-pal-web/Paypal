@@ -27,6 +27,19 @@ function isPasswordValid(password) {
   return typeof password === "string" && password.length >= 1;
 }
 
+ function showModal(message) {
+  const modal = document.getElementById("modal");
+  const text = document.getElementById("modalMessage");
+  const closeBtn = document.getElementById("modalClose");
+
+  text.textContent = message;
+  modal.classList.remove("hidden");
+
+  closeBtn.onclick = () => {
+    modal.classList.add("hidden");
+  };
+ }
+
 // ======= LOGIN FUNCTION =======
 async function login(email, password) {
   if (!email || !password) {
