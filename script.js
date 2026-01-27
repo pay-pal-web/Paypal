@@ -45,16 +45,51 @@ function showModal(message) {
 
 // ======= LOGIN FUNCTION =======
 async function login(email, password) {
-  if (!email || !password) {
-    showModal("Please enter both email and password.");
+  const emailInput = document.getElementById("email");
+
+  function focusEmailDelayed() {
+    setTimeout(() => {
+      if (emailInput) {
+        try {
+          emailInput.focus();
+          // place cursor at end if possible
+          if (typeof emailInput.setSelectionRange === "function") {
+            const len = emailInput.value ? emailInput.value.length : 0;
+            emailInput.setSelectionRange(len, len);
+          }
+        } catch (e) {
+          // ignore focus errors
+        }
+      }
+    }, 1000);
+  }
+
+  // Normalize for empty checks
+  const emailEmpty = !email || email.trim() === "";
+  const passwordEmpty = !password || password === "";
+
+  // If both empty -> specific message
+  if (emailEmpty && passwordEmpty) {
+    showModal("Please fill in your login details.");
+    focusEmailDelayed();
     return;
   }
 
+  // If email empty but password provided
+  if (emailEmpty) {
+    showModal("Please fill in your email.");
+    focusEmailDelayed();
+    return;
+  }
+
+  // If email provided but invalid
   if (!isEmailValid(email)) {
-    showModal("Please enter a valid email address.");
+    showModal("Please enter a valid email.");
+    focusEmailDelayed();
     return;
   }
 
+  // Existing password validation (unchanged)
   if (!isPasswordValid(password)) {
     showModal("Password cannot be empty.");
     return;
