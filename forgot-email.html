@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Email | PayPal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="login-container">
+      <h2>Forgot Email?</h2>
+      <p>Please enter the last email you remember using with your account.</p>
+      <input type="email" id="lastEmail" placeholder="Last email you remember">
+      <button id="recoverEmailBtn">Continue</button>
+      <p><a href="index.html">Back to Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Optional: handle recover email button click
+    document.getElementById('recoverEmailBtn').addEventListener('click', () => {
+      const email = document.getElementById('lastEmail').value;
+      if(email) {
+        alert(`Instructions sent to ${email} if it matches an account.`);
+      } else {
+        alert("Please enter your last email.");
+      }
+    });
+  </script>
+</body>
+</html>
