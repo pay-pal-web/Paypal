@@ -237,30 +237,3 @@ html, body {
   text-decoration: underline;
   color: var(--blue-700);
 }
-
-/* ================== Metallic Sign-up Button ================== */
-.btn-signup {
-  width: 100%;
-  max-width: 320px;                   /* same width as login button */
-  padding: 16px;                       /* same height as login button */
-  background: linear-gradient(145deg, #fefefe, #d9d9d9); /* metallic gradient */
-  color: #222;                         /* dark text for contrast */
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: 1px solid #ccc;              /* subtle metallic border */
-  border-radius: 25px;                 /* pill shape */
-  text-align: center;
-  display: block;
-  margin: 15px auto 0 auto;            /* center horizontally, spacing from login button */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 0 6px rgba(255,255,255,0.3) inset; /* subtle shadow + metallic reflection */
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-/* Hover effect: slightly brighter metallic with small lift */
-.btn-signup:hover {
-  background: linear-gradient(145deg, #ffffff, #e0e0e0);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12), 0 0 8px rgba(255,255,255,0.35) inset;
-}
