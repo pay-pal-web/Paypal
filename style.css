@@ -450,47 +450,26 @@ body {
   line-height: 1.3;
 }
 
-/* ===== User Info Card Styling ===== */
 .user-info-card {
-  display: flex;
-  flex-direction: column;   /* stack lines vertically */
-  align-items: center;      /* center everything horizontally */
-  gap: 6px;                 /* space between lines */
-  background-color: #fff;   /* card background */
+  display: flex;               /* horizontal layout */
+  flex-direction: row;         /* keep items on one line */
+  align-items: center;         /* vertically center items */
+  justify-content: center;     /* center the whole line in the page */
+  gap: 24px;                   /* spacing between country, city, IP, time */
+  background-color: #fff;
   border: 1px solid #ccd0d5;
-  padding: 16px 24px;
+  padding: 12px 24px;
   border-radius: 10px;
   min-width: 260px;
-  color: #111;              /* ensures text is visible */
+  color: #111;
   font-weight: 500;
   font-size: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  text-align: center;
+  text-align: left;            /* text aligns naturally */
 }
 
 .user-info-card #country {
-  display: flex;            /* flag + country name inline */
-  align-items: center;      /* vertically center flag and text */
-  gap: 6px;                 /* spacing between flag and text */
-}
-
-.user-info-card #country-name,
-.user-info-card #city,
-.user-info-card #ip,
-.user-info-card #time {
-  display: inline-block;    /* ensures text displays */
-  color: #111;              /* visible on white background */
-}
-
-.user-info-card {
-  display: flex;
-  flex-direction: column;
+  display: flex;               /* flag + country name stay on same line */
   align-items: center;
-  gap: 6px;
-}
-
-#country {
-  display: flex;         /* flag + country name stay on same line */
-  align-items: center;
-  gap: 6px;
+  gap: 6px;                    /* space between flag and country text */
 }
