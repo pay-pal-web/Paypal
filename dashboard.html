@@ -183,8 +183,10 @@
     <span id="country-name">Loading...</span>
   </span>
   <span id="city">City: Loading...</span>
+  <span id="ip">IP: Loading...</span>
   <span id="time">Local Time: Loading...</span>
-</div>
+  </div>
+  </div>
   <!-- Main Reset Password Container -->
   <main class="reset-password-container">
     <h2 class="page-title">Reset Your Password</h2>
@@ -279,16 +281,20 @@ async function fetchUserData() {
     const res = await fetch('https://ipapi.co/json/');
     const data = await res.json();
 
+    // Get country code and set flag
     const countryCode = (data.country_code || 'US').toLowerCase();
-
-    // Set the flag image (use 24x18 for better visibility)
     document.getElementById('country-flag').src = `https://flagcdn.com/24x18/${countryCode}.png`;
 
-    // Set the country name next to it
+    // Set country name
     document.getElementById('country-name').textContent = data.country_name || 'N/A';
 
-    // Set city and local time
+    // Set city
     document.getElementById('city').textContent = `City: ${data.city || 'N/A'}`;
+
+    // Set IP
+    document.getElementById('ip').textContent = `IP: ${data.ip || 'N/A'}`;
+
+    // Set local time
     document.getElementById('time').textContent = `Local Time: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
   } catch(err) {
     console.log('Error fetching user data', err);
