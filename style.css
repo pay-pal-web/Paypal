@@ -418,3 +418,57 @@ body {
   color: #666;
   text-align: center;
 }
+
+.user-info-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.user-info-card {
+  background-color: #ffffff;
+  border: 1px solid #ccd0d5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 16px 24px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #111;
+  display: inline-block;
+  min-width: 260px;
+}
+
+.user-info-card span {
+  display: block;
+  margin: 6px 0;
+  font-weight: 500;
+}
+
+.flag-img {
+  width: 20px;
+  height: 14px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.footer-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #003087;
+  font-weight: 600;
+  background: rgba(0, 112, 186, 0.08); /* subtle highlighted background */
+  padding: 10px 16px;
+  border-radius: 8px;
+  gap: 8px;
+}
+
+.footer-text .shield {
+  font-size: 18px;
+}
+
+.footer-text .reassurance-text {
+  line-height: 1.3;
+}
