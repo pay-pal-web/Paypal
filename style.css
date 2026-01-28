@@ -450,33 +450,13 @@ body {
   line-height: 1.3;
 }
 
-/* ================== User Info Vertical Styling ================== */
-.user-info-card {
-  display: flex;
-  flex-direction: column;  /* stack each line vertically */
-  align-items: center;     /* center everything horizontally */
-  gap: 6px;                /* spacing between lines */
-}
-
-.user-info-card #country {
-  display: flex;            /* put flag + country name on same line */
-  align-items: center;      /* vertically align flag and text */
-  gap: 6px;                 /* space between flag and country */
-}
-
-.user-info-card #city,
-.user-info-card #ip,
-.user-info-card #time {
-  display: block;           /* each on its own line */
-}
-
 /* ===== User Info Card Styling ===== */
 .user-info-card {
   display: flex;
   flex-direction: column;   /* stack lines vertically */
   align-items: center;      /* center everything horizontally */
   gap: 6px;                 /* space between lines */
-  background-color: #fff;   /* optional: card background */
+  background-color: #fff;   /* card background */
   border: 1px solid #ccd0d5;
   padding: 16px 24px;
   border-radius: 10px;
