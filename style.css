@@ -473,3 +473,9 @@ body {
   align-items: center;
   gap: 6px;                    /* space between flag and country text */
 }
+
+.user-info-card span:not(:last-child)::after {
+  content: "|";
+  margin: 0 12px;
+  color: #ccc;
+}
