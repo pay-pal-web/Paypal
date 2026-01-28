@@ -481,3 +481,16 @@ body {
   display: inline-block;    /* ensures text displays */
   color: #111;              /* visible on white background */
 }
+
+.user-info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+#country {
+  display: flex;         /* flag + country name stay on same line */
+  align-items: center;
+  gap: 6px;
+}
