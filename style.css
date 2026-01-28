@@ -407,3 +407,14 @@ body {
   background-color: #f5f7fa;   /* light background */
   border-top: 1px solid #e1e4e8; /* subtle top border */
 }
+
+.user-info span {
+  display: block;
+  margin: 4px 0;
+}
+.footer-text {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
